@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画特效</title>
+    <style>
+        .flexWrp{
+            display:flex;
+            justify-content: space-around;
+        }
+        .divideWrp{
+            width: 50%;
+        }
+        .divideWrp img{
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    动画特效
+</header>
+<section>
+    <div class="moveWrp">
+        <div class="moveEle flexWrp">
+            <div class="divideWrp">
+                <img src="./img/left.jpg" alt="">
+            </div>
+            <div class="divideWrp">
+                <img src="./img/right.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+</footer>
+<script src="./jquery-2.1.1.min.js"></script>
+<script>
+    var proListAreaClass = 'moveEle',
+            proListAreaW,
+            proListAreaH,
+            proListMouseX,
+            proListMouseY;
+
+    function commonSetting(){
+        wW = $(window).width();
+        wH = $(window).height();
+        proListAreaW = $('.'+proListAreaClass).width();
+        proListAreaH = $('.'+proListAreaClass).height();
+        if(wW >= 769){
+            $('body').addClass('pc');
+            scrDelayH = 200;
+        }else{
+            $('body').removeClass('pc');
+            scrDelayH = 50;
+        }
+    }
+    commonSetting();
+    function projectMove(i_event){
+        var eventObj;
+        var propName;
+        if(window.navigator.userAgent.toLowerCase().indexOf("firefox") != -1){
+            eventObj = i_event;
+            propName = "offset";
+        }else{
+            eventObj = event;
+            propName = "layer";
+        }
+        proListMouseX = (eventObj[propName+"X"]- proListAreaW * 0.5) * 0.05;
+        proListMouseY = (eventObj[propName+"Y"] - proListAreaH * 0.5) * 0.1;
+
+        $(this).css({"transform":"rotateX(" + -proListMouseY + "deg) rotateY(" + proListMouseX +"deg)"});
+        $(this).css({"transform":"rotateX(" + -proListMouseY + "deg) rotateY(" + proListMouseX +"deg)"});
+    }
+    function projectOut(){
+        $('.moveEle').css({"transform":"rotateX(0deg) rotateY(0deg)"});
+        $('.moveEle').css({"transform":"rotateX(0deg) rotateY(0deg)"});
+    }
+    $(document).on('mousemove','.'+proListAreaClass,projectMove);
+    $(document).on('mouseout','.'+proListAreaClass,projectOut);
+</script>
+
+</body>
+</html>
